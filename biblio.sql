@@ -111,3 +111,23 @@ WHERE NomCategorie = nomCat;
 END;
 //
 DELIMITER ;
+
+DELIMITER //
+Create Trigger MiseAJourDateRetour
+BEFORE INSERT on Emprunts
+FOR EACH ROW
+BEGIN
+SET new.Dateretourprevu = DATE_ADD(DATE(NOW()), INTERVAL 31 DAY);
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+Create PROCEDURE PS_ListeEmpruntsRetard()
+BEGIN
+Select * from Emprunts
+where DateRetourPrevu < Date(NOW());
+END;
+//
+DELIMITER ;
+
