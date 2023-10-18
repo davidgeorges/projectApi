@@ -1,6 +1,8 @@
 -- Création de la base de données "BibliothequeDB"
 CREATE DATABASE Biblio;
 
+Create user 'UtilisateurBiblio'@'localhost' Identified by 'pwd';
+
 -- Utilisation de la base de données
 USE Biblio;
 
@@ -90,3 +92,22 @@ INSERT INTO Utilisateurs (Nom, Prenom, Email, DateInscription)
 VALUES
     ('Dupont', 'Marie', 'marie.dupont@email.com', '2023-01-15'),
     ('Martin', 'Pierre', 'pierre.martin@email.com', '2023-02-20');
+
+DELIMITER //
+CREATE PROCEDURE PS_GetUtilisateursEmprunts()
+BEGIN
+SELECT DISTINCT u.Nom, u.Prenom FROM Emprunts e
+INNER JOIN Utilisateurs u ON e.UtilisateurID = u.id;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE PS_GetTitreByCategorie(IN nomCat varchar(255))
+BEGIN
+SELECT Titre FROM Livres l
+INNER JOIN Categories c ON l.CategorieID = c.ID
+WHERE NomCategorie = nomCat;
+END;
+//
+DELIMITER ;
