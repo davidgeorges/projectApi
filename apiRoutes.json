@@ -41,6 +41,40 @@
 			"response": []
 		},
 		{
+			"name": "Update user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/update?id=1&nom=Dupont",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						},
+						{
+							"key": "nom",
+							"value": "Dupont"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get user",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -125,6 +159,60 @@
 						"by",
 						"categorie",
 						"Roman"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user borrow",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/get/user/by/loan",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"get",
+						"user",
+						"by",
+						"loan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get late loan list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/get/user/by/loan",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"get",
+						"user",
+						"by",
+						"loan"
 					]
 				}
 			},
