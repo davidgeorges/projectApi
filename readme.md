@@ -10,6 +10,7 @@
 
 # Installation des libraries et lancement de l'application
 1 - pip install -r installed_libraries.txt
+<br>
 2 - uvicorn main:app --reload
 
 # Test / Exemple of use
