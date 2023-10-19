@@ -5,6 +5,8 @@ Create user 'UtilisateurBiblio'@'localhost' Identified by 'pwd';
 
 Grant Select, Insert, Update, Delete on biblio.* to 'UtilisateurBiblio'@'localhost';
 
+GRANT EXECUTE on Biblio.* TO 'UtilisateurBiblio'@'localhost';
+
 FLUSH PRIVILEGES;
 
 -- Utilisation de la base de données
