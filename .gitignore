@@ -1,5 +1,4 @@
 __pycache__
 routes/__pycache__ 
 confi/__pycache__ 
-models/__pycache__ 
-.env
+models/__pycache__
