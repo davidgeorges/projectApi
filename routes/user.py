@@ -48,7 +48,7 @@ async def delete_user(id):
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@user.get("/get/titre/by/categorie/{category_name}")
+@user.get("/get/title/by/category/{category_name}")
 async def get_tilte_by_category(category_name):
     try : 
         result_list = []
@@ -60,20 +60,21 @@ async def get_tilte_by_category(category_name):
     except Exception as error :
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-@user.get("/GetUtilisateursEmprunts/")
+@user.get("/get/user/by/loan/")
 async def GetUtilisateursEmprunts():
-    cursor.callproc("PS_GetUtilisateursEmprunts")
-    resFetch = []
-    resList = []
-    for result in cursor.stored_results():
-        resFetch.append(result.fetchall())
-    for res in resFetch:
-        resList.append({"Nom" : res[0][0], "Prenom" : res[0][1]})
+    try :
+        resFetch = []
+        result_list = []
+        cursor.callproc("PS_GetUtilisateursEmprunts")
+        for result in cursor.stored_results():
+            for row in result.fetchall():
+                result_list.append({"Nom" : row[0][0], "Prenom" : row[0][1]})
+        return JSONResponse(content={"resultList" : result_list},status_code=status.HTTP_201_CREATED)
+    except Exception as error :
+        print(error)
+        return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    print(cursor.stored_results())
-    return resList
-
-@user.get("/ListeEmpruntsRetard/")
+@user.get("/get/late/loan/list")
 async def GetUtilisateursEmprunts():
     cursor.callproc("PS_ListeEmpruntsRetard")
     resFetch = []
