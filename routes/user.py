@@ -29,12 +29,31 @@ async def get_user(id):
             return JSONResponse(content={"payload" :user_json},status_code=status.HTTP_200_OK)
         return JSONResponse(content={"error": "User not found"},status_code=status.HTTP_404_NOT_FOUND)
     except Exception as error :
-        print(error)
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@user.put("/update/{id}")
-async def update_user(id):
-    return {"message": f"Update user : {id}"}
+@user.put("/update/")
+async def update_user(id = Query(None),nom = Query(None),prenom  = Query(None),email = Query(None) ):    
+    set_clauses = []
+
+    if nom is not None:
+        set_clauses.append(f"Nom = '{nom}'")
+    if prenom is not None:
+        set_clauses.append(f"Prenom = '{prenom}'")
+    if email is not None:
+        set_clauses.append(f"Email = '{email}'")
+
+    set_clause = ", ".join(set_clauses)
+    if set_clause:
+        sql_query = f"UPDATE utilisateurs SET {set_clause} WHERE id = {id};"
+        try :
+            cursor.execute(sql_query)
+            conn.commit()
+            if cursor.rowcount <= 0:
+                return Response(status_code=status.HTTP_204_NO_CONTENT)
+            return JSONResponse(content={"message": "User updated successfully"},status_code=status.HTTP_200_OK)
+        except Exception as error :
+            return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)                  
+    return JSONResponse(content={"message": "No valid data provided for update"}, status_code=status.HTTP_400_BAD_REQUEST)
 
 @user.delete("/delete/{id}")
 async def delete_user(id):
@@ -42,7 +61,7 @@ async def delete_user(id):
         cursor.execute(f"DELETE FROM utilisateurs WHERE id = {id}")
         conn.commit()
         if cursor.rowcount > 0:
-            return status.HTTP_204_NO_CONTENT
+            return Response(status_code=status.HTTP_204_NO_CONTENT)
         return JSONResponse(content={"error": "User not found"},status_code=status.HTTP_404_NOT_FOUND)
     except Exception as error : 
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -61,7 +80,7 @@ async def get_tilte_by_category(category_name):
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 @user.get("/get/user/by/loan/")
-async def GetUtilisateursEmprunts():
+async def get_user_by_loan():
     try :
         res_fetch = []
         result_list = []
@@ -72,23 +91,23 @@ async def GetUtilisateursEmprunts():
             result_list.append({"Nom" : res[0], "Prenom" : res[1]})
         return JSONResponse(content={"payload" : result_list},status_code=status.HTTP_201_CREATED)
     except Exception as error :
-        print(error)
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @user.get("/get/late/loan/list")
-async def GetUtilisateursEmprunts():
-    cursor.callproc("PS_ListeEmpruntsRetard")
-    resFetch = []
-    resList = []
-    for result in cursor.stored_results():
-        resFetch.append(result.fetchall())
-    for res in resFetch:
-        resList.append({"ID" : res[0][0], 
-                        "LivreISBN" : res[0][1],
-                        "UtilisateurID" : res[0][2],
-                        "DateEmprunt" : res[0][3],
-                        "DateRetourPrevu" : res[0][4]
-                        })
-
-    print(cursor.stored_results())
-    return resList
+async def get_user_list_by_late_loan():
+    try : 
+        cursor.callproc("PS_ListeEmpruntsRetard")
+        res_fetch = []
+        result_list = []
+        for result in cursor.stored_results():
+            res_fetch.append(result.fetchall())
+        for res in res_fetch:
+            result_list.append({"ID" : res[0][0], 
+                            "LivreISBN" : res[0][1],
+                            "UtilisateurID" : res[0][2],
+                            "DateEmprunt" : res[0][3],
+                            "DateRetourPrevu" : res[0][4]
+                            })
+        return result_list
+    except Exception as error :
+        return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
