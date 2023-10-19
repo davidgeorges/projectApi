@@ -3,6 +3,8 @@ CREATE DATABASE Biblio;
 
 Create user 'UtilisateurBiblio'@'localhost' Identified by 'pwd';
 
+Grant Select, Insert, Update, Delete on biblio.* to 'UtilisateurBiblio';
+
 -- Utilisation de la base de données
 USE Biblio;
 
@@ -92,6 +94,11 @@ INSERT INTO Utilisateurs (Nom, Prenom, Email, DateInscription)
 VALUES
     ('Dupont', 'Marie', 'marie.dupont@email.com', '2023-01-15'),
     ('Martin', 'Pierre', 'pierre.martin@email.com', '2023-02-20');
+
+INSERT INTO Emprunts (LivreISBN, UtilisateurID, DateEmprunt)
+VALUES
+    ('9782070369561', 1, DATE('2010-01-01')),
+    ('9782013233707', 1, DATE(NOW()));
 
 DELIMITER //
 CREATE PROCEDURE PS_GetUtilisateursEmprunts()
