@@ -59,3 +59,34 @@ async def get_tilte_by_category(category_name):
         return JSONResponse(content={"resultList" : result_list},status_code=status.HTTP_201_CREATED)
     except Exception as error :
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@user.get("/GetUtilisateursEmprunts/")
+async def GetUtilisateursEmprunts():
+    cursor.callproc("PS_GetUtilisateursEmprunts")
+    resFetch = []
+    resList = []
+    for result in cursor.stored_results():
+        resFetch.append(result.fetchall())
+    for res in resFetch:
+        resList.append({"Nom" : res[0][0], "Prenom" : res[0][1]})
+
+    print(cursor.stored_results())
+    return resList
+
+@user.get("/ListeEmpruntsRetard/")
+async def GetUtilisateursEmprunts():
+    cursor.callproc("PS_ListeEmpruntsRetard")
+    resFetch = []
+    resList = []
+    for result in cursor.stored_results():
+        resFetch.append(result.fetchall())
+    for res in resFetch:
+        resList.append({"ID" : res[0][0], 
+                        "LivreISBN" : res[0][1],
+                        "UtilisateurID" : res[0][2],
+                        "DateEmprunt" : res[0][3],
+                        "DateRetourPrevu" : res[0][4]
+                        })
+
+    print(cursor.stored_results())
+    return resList
