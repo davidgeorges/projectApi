@@ -1,19 +1,22 @@
 # Project API - IPSSI - 2023
+Pierre, Paul , David
 
 # Fonctionnalités
 1 - Create,get,update and delete an user.
  <br>
 2 - Get the title of a book by category, by using a PROCEDURE
  <br>
-3 - ?
-<br>
+3 - Get users that borrowed a book, by using a PROCEDURE
+ <br>
+4 - Get users who have borrowed a book and whose book return date has passed, by using a PROCEDURE
+ <br>
 
 # Installation des libraries et lancement de l'application
 1 - pip install -r installed_libraries.txt
 <br>
 2 - uvicorn main:app --reload
 
-# Test / Exemple of use
+# Test / Exemple of use to create an USER
 1 - Import apiRoutes.json in POSTMAN.
  <br>
 2 - Use the route "Create user", in the body section you will have a JSON containing the user informations, change the information as you want and than click on SEND.
