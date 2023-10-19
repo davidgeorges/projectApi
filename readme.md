@@ -1,9 +1,13 @@
 # Project API - IPSSI - 2023
 
-
 # Fonctionnalités
 
-
+# Test / Exemple of use
+1 - Import apiRoutes.json in POSTMAN.
+2 - Use the route "Create user", in the body section you will have a JSON containing the user informations, change the information as you want and than click on SEND.
+3 - If the user doesn't exist in the database you will have the following message : "User registred with success." and the HTTP code : 201.
+4 - If the user exist in the database you will have the following message : "Email already used." and the HTTP code : 200.
+5 - If its not step 3 or 4, an INTERNAL ERROR SERVOR as occured.
 
 # Techno :
 Backend : FastApi (Python) <code><img height="40" alt="react" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"></code>
