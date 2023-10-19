@@ -63,13 +63,14 @@ async def get_tilte_by_category(category_name):
 @user.get("/get/user/by/loan/")
 async def GetUtilisateursEmprunts():
     try :
-        resFetch = []
+        res_fetch = []
         result_list = []
         cursor.callproc("PS_GetUtilisateursEmprunts")
         for result in cursor.stored_results():
-            for row in result.fetchall():
-                result_list.append({"Nom" : row[0][0], "Prenom" : row[0][1]})
-        return JSONResponse(content={"resultList" : result_list},status_code=status.HTTP_201_CREATED)
+            res_fetch.append(result.fetchall())
+        for res in res_fetch[0]:
+            result_list.append({"Nom" : res[0], "Prenom" : res[1]})
+        return JSONResponse(content={"payload" : result_list},status_code=status.HTTP_201_CREATED)
     except Exception as error :
         print(error)
         return JSONResponse(content="Internal Server Error",status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
